@@ -7,7 +7,7 @@ use PDO;
 use PHPMeetup\Application\BaseCommand;
 use PHPMeetup\Helpers\AwsSqsClient;
 
-class Master extends BaseCommand
+class Leader extends BaseCommand
 {
     private PDO $connection;
 
@@ -28,7 +28,7 @@ class Master extends BaseCommand
                     continue;
                 }
 
-                $this->log('Start processing' . count($numbers) . ' rows!');
+                $this->log('Start processing ' . count($numbers) . ' rows!');
 
                 $items = [];
                 foreach ($numbers as $number) {

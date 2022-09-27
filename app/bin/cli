@@ -1,0 +1,9 @@
+#!/usr/local/bin/php -q
+<?php
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+use PHPMeetup\Application\Bootstrap;
+
+$runner = new Bootstrap();
+$runner->load($argv);

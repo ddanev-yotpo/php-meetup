@@ -1,0 +1,16 @@
+{
+    "name": "smsbump/php-meetup",
+    "description": "Demo project for the PHP Meetup event.",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "PHPMeetup\\": "src/"
+        },
+         "files": [ "src/Helpers/functions.php" ]
+    },
+    "require": {
+        "aws/aws-sdk-php": "^3.235",
+        "ext-pcntl": "*",
+        "ext-pdo": "*"
+    }
+}

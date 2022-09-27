@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-    TEST
-=======
 ### This is demo application, used for the Yotpo SmsBump PHP Meetup  
 > #### Long-running background services using AWS with the help of Terraform
 **You should not use it as is on production.**
@@ -47,5 +44,4 @@ Some security considerations:
 * Add `AWS SecretManager` and used it for the RDS authentication instead of the current env based approach.
 * Use private subnets and allow egress internet traffic via NAT Gateway(paid) instead Internet gateway public access (free). 
 [Read more about it here](https://aws.amazon.com/premiumsupport/knowledge-center/ecs-pull-container-api-error-ecr/)
-* Prefer `local` instead `var`, read more about it [here](https://learn.hashicorp.com/tutorials/terraform/locals) 
->>>>>>> Stashed changes
+* Prefer `local` instead `var`, read more about it [here](https://learn.hashicorp.com/tutorials/terraform/locals)

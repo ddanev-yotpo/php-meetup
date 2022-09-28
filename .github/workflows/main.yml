@@ -1,4 +1,4 @@
-name: Terraform validation
+name: Terraform CI
 
 on:
   push:
@@ -7,17 +7,21 @@ on:
     branches: [ main ]
 
 jobs:
-  terraform-validation:
+  validate:
+    name: Validate
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-python@v1
-      - uses: lablabs/setup-terraform-docs@v1
-      - uses: lablabs/setup-tflint@v1
-      - uses: BSFishy/pip-action@v1
-        with:
-          packages: detect-secrets
-      - uses: pre-commit/action@v2.0.0
-        env:
-          AWS_DEFAULT_REGION: "eu-central-1"
+    - name: Check out code
+      uses: actions/checkout@v1
+
+    - name: Run a Terraform init
+      uses: docker://hashicorp/terraform:0.12.11
+      with:
+        entrypoint: terraform
+        args: init
+
+    - name: Run a Terraform validate
+      uses: docker://hashicorp/terraform:0.12.11
+      with:
+        entrypoint: terraform
+        args: validate

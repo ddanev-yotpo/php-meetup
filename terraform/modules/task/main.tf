@@ -1,5 +1,5 @@
 module "service_module" {
-  source              = "./service"
+  source              = "./modules/service"
   count               = local.count_service
   name                = local.service_name
   desired_count       = var.desired_count
@@ -13,7 +13,7 @@ module "service_module" {
   assign_public_ip = true
 }
 module "sqs_module" {
-  source      = "./sqs"
+  source      = "./modules/sqs"
   count       = local.count_sqs
   name        = local.full_queue_name
   tags        = local.tags
@@ -21,7 +21,7 @@ module "sqs_module" {
   fifo_queue  = local.fifo_queue
 }
 module "cronjob_module" {
-  source              = "./cronjob"
+  source              = "./modules/cronjob"
   count               = local.count_cronjob
   schedule_expression = var.schedule_expression
   name                = local.full_name
@@ -38,7 +38,7 @@ module "cronjob_module" {
 }
 
 module "autoscaling" {
-  source                  = "./autoscaling"
+  source                  = "./modules/autoscaling"
   count                   = local.count_autoscaling
   enable_sqs_autoscaling  = var.enable_sqs_autoscaling
   enable_cpu_autoscaling  = var.enable_cpu_autoscaling
@@ -62,6 +62,7 @@ resource "aws_ecs_task_definition" "this" {
   cpu    = var.cpu
   memory = var.memory
   tags   = local.tags
+  depends_on = [module.sqs_module.SQS_QUEUE_NAME]
 
   container_definitions = jsonencode([
     {

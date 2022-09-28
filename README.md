@@ -1,8 +1,10 @@
-### This is demo application, used for the Yotpo SmsBump PHP Meetup  
+### This is demo application, used for the Yotpo SMSBump PHP Meetup  
+![xxxx](https://dnuaqhs941n75.cloudfront.net/img/website/smsbump-yotpo-2.svg)
 > #### Long-running background services using AWS with the help of Terraform
 **You should not use it as is on production.**
 
 ---
+
 
 ### Folder structure
 ### `app`  

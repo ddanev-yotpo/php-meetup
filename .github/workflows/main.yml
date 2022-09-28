@@ -1,0 +1,23 @@
+name: Terraform validation
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  terraform-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+      - uses: lablabs/setup-terraform-docs@v1
+      - uses: lablabs/setup-tflint@v1
+      - uses: BSFishy/pip-action@v1
+        with:
+          packages: detect-secrets
+      - uses: pre-commit/action@v2.0.0
+        env:
+          AWS_DEFAULT_REGION: "eu-central-1"

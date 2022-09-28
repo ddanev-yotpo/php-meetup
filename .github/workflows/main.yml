@@ -2,9 +2,9 @@ name: Terraform validation
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   terraform-validation:

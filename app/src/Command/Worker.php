@@ -6,6 +6,7 @@ use Exception;
 use PDO;
 use PHPMeetup\Application\BaseCommand;
 use PHPMeetup\Helpers\AwsSqsClient;
+use function PHPMeetup\Helpers\placeholders;
 
 class Worker extends BaseCommand
 {
@@ -75,7 +76,7 @@ class Worker extends BaseCommand
         $placeholders = [];
         $insert_values = [];
         foreach ($data as $d) {
-            $placeholders[] = '(' . rtrim(str_repeat('?,', sizeof($d)), ',') . ')';
+            $placeholders[] = '(' . placeholders($d) . ')';
             array_push($insert_values, ...array_values($d));
         }
         $columns = array_keys(reset($data));
@@ -94,7 +95,7 @@ class Worker extends BaseCommand
      */
     private function setProcessed(string $table, array $id): int|bool
     {
-        $placeholders = rtrim(str_repeat('?,', sizeof($id)), ',');
+        $placeholders = placeholders($id);
         $sql = "UPDATE `$table`
             SET `processed` = 1
             WHERE `id` IN ($placeholders)";

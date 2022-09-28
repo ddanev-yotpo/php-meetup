@@ -6,6 +6,7 @@ use Exception;
 use PDO;
 use PHPMeetup\Application\BaseCommand;
 use PHPMeetup\Helpers\AwsSqsClient;
+use function PHPMeetup\Helpers\placeholders;
 
 class Leader extends BaseCommand
 {
@@ -85,7 +86,7 @@ class Leader extends BaseCommand
 
     private function updateNumbersToPushed(array $ids): int|bool
     {
-        $placeholders = rtrim(str_repeat('?,', sizeof($ids)), ',');
+        $placeholders = placeholders($ids);
         $current_time = date('Y-m-d H:i:s', time());
         $sql = "UPDATE `read`
             SET `pushed_timestamp` = '{$current_time}'

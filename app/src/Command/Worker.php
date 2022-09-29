@@ -54,7 +54,11 @@ class Worker extends BaseCommand
 
                 $updated = $this->setProcessed('read', array_keys($results));
                 $this->log("Read updated [$updated]");
-                $sqs_client->deleteMessages($messages);
+                $response = $sqs_client->deleteMessages($messages);
+
+                if ($response === false) {
+                    throw new Exception('Failed delete messages from SQS');
+                }
                 $this->connection->commit();
                 sleep(10);
             } catch (Exception $e) {

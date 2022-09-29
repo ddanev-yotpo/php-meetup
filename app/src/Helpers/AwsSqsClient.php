@@ -38,11 +38,10 @@ class AwsSqsClient {
     /**
      * @param array $items
      *
-     * @return Result|bool
+     * @return bool
      */
-    public function pushMessages(array $items): Result|bool
+    public function pushMessages(array $items): bool
     {
-        $result = false;
         $entries = [];
 
         foreach ($items as $key => $value) {
@@ -65,24 +64,27 @@ class AwsSqsClient {
 
         $batches = array_chunk($entries, 10);
         foreach ($batches as $batch) {
-            $result = $this->sqs_client->sendMessageBatch([
+            $response = $this->sqs_client->sendMessageBatch([
                 'Entries' => $batch,
                 'QueueUrl' => $this->sqs_queue_url,
             ]);
+
+            if (isset($response->toArray()['Failed'])) {
+                return false;
+            }
         }
 
-        return isset($result->toArray()['Failed']) ? false : $result;
+        return true;
     }
 
     /**
      * @param array $messages
      *
-     * @return Result|bool
+     * @return bool
      */
-    public function deleteMessages(array $messages): Result|bool
+    public function deleteMessages(array $messages): bool
     {
         $entries = [];
-        $result = false;
 
         foreach ($messages as $message) {
             $entries[] = [
@@ -93,13 +95,17 @@ class AwsSqsClient {
 
         $batches = array_chunk($entries, 10);
         foreach ($batches as $batch) {
-            $result = $this->sqs_client->deleteMessageBatch([
+            $response = $this->sqs_client->deleteMessageBatch([
                 'Entries' => $batch,
                 'QueueUrl' => $this->sqs_queue_url,
             ]);
+
+            if (isset($response->toArray()['Failed'])) {
+                return false;
+            }
         }
 
-        return $result;
+        return true;
     }
     
 }

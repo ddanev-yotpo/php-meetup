@@ -78,7 +78,7 @@ class Leader extends BaseCommand
                 WHERE
                     `processed` = 0 AND
                     `pushed_timestamp` IS NULL
-                LIMIT 10
+                LIMIT 100
                 FOR UPDATE
                 SKIP LOCKED;
             ")->fetchAll();
